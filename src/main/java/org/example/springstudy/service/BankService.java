@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.example.springstudy.repository.BankRepo;
 import org.springframework.stereotype.Service;
+import org.example.springstudy.dto.TransactionRequestDTO;
 
 /***
  *Service contains the business logic of the application. It decides how tasks are performed.
@@ -40,13 +41,39 @@ public class BankService {
     public double getBalance() {
         return balance;
     }
-    public String deposit(double amount) {
-        if (amount <= 0 ) {
+//    public String deposit(double amount) {
+//        if (amount <= 0 ) {
+//            return "Invalid amount";
+//        }
+//        balance = balance + amount;
+//        bankRepo.addTransaction("Deposited: " + amount);
+//        return "Deposit successful. New Balance: " + balance;
+//    }
+    public String processTransaction(TransactionRequestDTO requestDTO) {
+        double amount = requestDTO.getAmount();
+        String type = requestDTO.getType();
+
+        if (amount<= 0) {
             return "Invalid amount";
+
         }
-        balance = balance + amount;
-        bankRepo.addTransaction("Deposited: " + amount);
-        return "Deposit successful. New Balance: " + balance;
+        if (type.equals("DEPOSIT")) {
+            balance += amount;
+            bankRepo.addTransaction("Deposited: " + amount);
+            return "Deposit successful. New balance: " + balance;
+        }
+        else if (type.equals("WITHDRAW")) {
+            if (amount > balance) {
+                return "Insufficient funds";
+            }
+            balance -= amount;
+            bankRepo.addTransaction("Withdrawn: " + amount);
+            return "Withdraw successful. New balance: " + balance;
+
+        }
+        else {
+            return "Invalid type";
+        }
     }
 
     public String getTransactionHistory() {
