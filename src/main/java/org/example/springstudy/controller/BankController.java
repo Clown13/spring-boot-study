@@ -1,10 +1,8 @@
 package org.example.springstudy.controller;
 
 import org.example.springstudy.service.BankService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+import org.example.springstudy.dto.TransactionRequestDTO;
 /***
  * What is Controller?
  * Controller Handles user interactions (HTTP Requests).
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 //Makes this class a REST API controller
 // Rest Controller returns data in form of JSON or XML as HTTP Response.
 @RestController
+@RequestMapping("/bank")
 public class BankController {
     //Holds reference to the BankService bean. Dependency Injection at work.
     private final BankService bankService;
@@ -28,10 +27,25 @@ public class BankController {
     public String getBalance() {
         return "Your current balance is: $" + bankService.getBalance();
     }
-    //Handles GET requests to deposit money.
-    //RequestParam: Extracts the amount parameter from the request URL. Request Param makes the parameter mandatory, can make it required=false.
-    @GetMapping("/deposit")
-    public String deposit(@RequestParam double amount) {
-        return bankService.deposit(amount);
+//    //Handles GET requests to deposit money.
+//    //RequestParam: Extracts the amount parameter from the request URL. Request Param makes the parameter mandatory, can make it required=false.
+//    @GetMapping("/deposit")
+//    public String deposit(@RequestParam double amount) {
+//        return bankService.deposit(amount);
+//    }
+
+    @PostMapping("/transaction")
+    public String processTransaction(@RequestBody TransactionRequestDTO requestDTO) {
+        return bankService.processTransaction(requestDTO);
+
+    }
+
+
+
+
+    @GetMapping("/history")
+    public String getTransactions() {
+
+        return bankService.getTransactionHistory();
     }
 }
