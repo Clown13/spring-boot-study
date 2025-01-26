@@ -1,5 +1,6 @@
 package org.example.springstudy.controller;
 
+import org.example.springstudy.exceptions.InvalidTransactionTypeException;
 import org.example.springstudy.service.BankService;
 import org.springframework.web.bind.annotation.*;
 import org.example.springstudy.dto.TransactionRequestDTO;
@@ -34,8 +35,9 @@ public class BankController {
 //        return bankService.deposit(amount);
 //    }
 
+    //The controller's throws declaration doesn't mean the controller throws the exception itself, it simply propagates exceptions from the service layer. Key part in Spring Application
     @PostMapping("/transaction")
-    public String processTransaction(@RequestBody TransactionRequestDTO requestDTO) {
+    public String processTransaction(@RequestBody TransactionRequestDTO requestDTO) throws InvalidTransactionTypeException {
         return bankService.processTransaction(requestDTO);
 
     }

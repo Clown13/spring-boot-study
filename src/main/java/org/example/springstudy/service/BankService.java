@@ -5,6 +5,7 @@ import jakarta.annotation.PreDestroy;
 import org.example.springstudy.repository.BankRepo;
 import org.springframework.stereotype.Service;
 import org.example.springstudy.dto.TransactionRequestDTO;
+import org.example.springstudy.exceptions.InvalidTransactionTypeException;
 
 /***
  *Service contains the business logic of the application. It decides how tasks are performed.
@@ -49,7 +50,7 @@ public class BankService {
 //        bankRepo.addTransaction("Deposited: " + amount);
 //        return "Deposit successful. New Balance: " + balance;
 //    }
-    public String processTransaction(TransactionRequestDTO requestDTO) {
+    public String processTransaction(TransactionRequestDTO requestDTO) throws InvalidTransactionTypeException {
         double amount = requestDTO.getAmount();
         String type = requestDTO.getType();
 
@@ -72,7 +73,7 @@ public class BankService {
 
         }
         else {
-            return "Invalid type";
+            throw new InvalidTransactionTypeException("Transaction type not supported: " + type);
         }
     }
 
