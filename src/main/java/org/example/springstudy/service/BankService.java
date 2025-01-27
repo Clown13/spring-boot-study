@@ -2,6 +2,7 @@ package org.example.springstudy.service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.example.springstudy.exceptions.InsufficientFundsException;
 import org.example.springstudy.repository.BankRepo;
 import org.springframework.stereotype.Service;
 import org.example.springstudy.dto.TransactionRequestDTO;
@@ -50,12 +51,12 @@ public class BankService {
 //        bankRepo.addTransaction("Deposited: " + amount);
 //        return "Deposit successful. New Balance: " + balance;
 //    }
-    public String processTransaction(TransactionRequestDTO requestDTO) throws InvalidTransactionTypeException {
+    public String processTransaction(TransactionRequestDTO requestDTO) throws InvalidTransactionTypeException, InsufficientFundsException, IllegalArgumentException {
         double amount = requestDTO.getAmount();
         String type = requestDTO.getType();
 
         if (amount<= 0) {
-            return "Invalid amount";
+            throw new IllegalArgumentException("Amount must be greater than 0");
 
         }
         if (type.equals("DEPOSIT")) {
@@ -65,7 +66,7 @@ public class BankService {
         }
         else if (type.equals("WITHDRAW")) {
             if (amount > balance) {
-                return "Insufficient funds";
+                throw new InsufficientFundsException("Insufficient funds, available balance: " + balance);
             }
             balance -= amount;
             bankRepo.addTransaction("Withdrawn: " + amount);
