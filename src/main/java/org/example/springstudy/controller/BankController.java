@@ -5,6 +5,8 @@ import org.example.springstudy.exceptions.InvalidTransactionTypeException;
 import org.example.springstudy.service.BankService;
 import org.springframework.web.bind.annotation.*;
 import org.example.springstudy.dto.TransactionRequestDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /***
  * What is Controller?
  * Controller Handles user interactions (HTTP Requests).
@@ -18,6 +20,7 @@ import org.example.springstudy.dto.TransactionRequestDTO;
 public class BankController {
     //Holds reference to the BankService bean. Dependency Injection at work.
     private final BankService bankService;
+    private final Logger logger = LoggerFactory.getLogger(BankController.class);
 
     //Constructor Injection
     public BankController(BankService bankService) {
@@ -27,6 +30,7 @@ public class BankController {
     // Any client (postman/front-end application) that sends GET request to url path /balance will trigger this method.
     @GetMapping("/balance")
     public String getBalance() {
+        logger.info("Received GET balance request");
         return "Your current balance is: $" + bankService.getBalance();
     }
 //    //Handles GET requests to deposit money.
@@ -39,6 +43,7 @@ public class BankController {
     //The controller's throws declaration doesn't mean the controller throws the exception itself, it simply propagates exceptions from the service layer. Key part in Spring Application
     @PostMapping("/transaction")
     public String processTransaction(@RequestBody TransactionRequestDTO requestDTO) throws InvalidTransactionTypeException, InsufficientFundsException,IllegalArgumentException {
+        logger.info("Received POST transaction request with payload : {}", requestDTO.toString());
         return bankService.processTransaction(requestDTO);
 
     }
@@ -48,7 +53,7 @@ public class BankController {
 
     @GetMapping("/history")
     public String getTransactions() {
-
+        logger.info("Received GET history request");
         return bankService.getTransactionHistory();
     }
 }

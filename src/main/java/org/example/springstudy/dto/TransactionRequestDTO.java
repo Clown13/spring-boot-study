@@ -10,6 +10,14 @@ public class TransactionRequestDTO {
     private double amount; // Amount for deposit or withdrawal.
     private String type; //Transaction type Deposit or Withdrawal.
 
+    @Override
+    public String toString() {
+        return "TransactionREquestDTO{" +
+                "amount=" + amount +
+                ", type'" + type + '\''+
+                '}';
+    }
+
     //Getters and Setters.
     public double getAmount() {
         return amount;
