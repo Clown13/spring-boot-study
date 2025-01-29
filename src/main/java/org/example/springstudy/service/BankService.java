@@ -3,7 +3,9 @@ package org.example.springstudy.service;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.example.springstudy.exceptions.InsufficientFundsException;
+import org.example.springstudy.model.Transaction;
 import org.example.springstudy.repository.BankRepo;
+import org.example.springstudy.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 import org.example.springstudy.dto.TransactionRequestDTO;
 import org.example.springstudy.exceptions.InvalidTransactionTypeException;
@@ -21,11 +23,13 @@ import org.slf4j.LoggerFactory;
 public class BankService {
     private static final Logger logger = LoggerFactory.getLogger(BankService.class);
     private final BankRepo bankRepo;
+    private final TransactionRepository transactionRepository;
     //initiating original balance
     private double balance = 1000.00;
 
-    public BankService(BankRepo bankRepo) {
+    public BankService(BankRepo bankRepo, TransactionRepository transactionRepository) {
         this.bankRepo = bankRepo;
+        this.transactionRepository = transactionRepository;
     }
 
     // these annotations are part of lifecycle hooks for beans.
@@ -66,6 +70,8 @@ public class BankService {
             balance += amount;
             bankRepo.addTransaction("Deposited: " + amount);
             logger.info("Deposited: " + amount);
+            saveTransaction(requestDTO);
+
             return "Transaction Successful - Deposited New balance: " + balance;
         }
         else if (type.equals("WITHDRAW")) {
@@ -76,6 +82,8 @@ public class BankService {
             balance -= amount;
             bankRepo.addTransaction("Withdrawn: " + amount);
             logger.info("Transaction Successful - Withdrawn: " + amount);
+
+            saveTransaction(requestDTO);
             return "Withdraw successful. New balance: " + balance;
 
         }
@@ -88,6 +96,15 @@ public class BankService {
     public String getTransactionHistory() {
         logger.info("BankService getTransactionHistory started");
         return String.join(", ", bankRepo.getTransactionHistory());
+    }
+
+    private void saveTransaction(TransactionRequestDTO requestDTO) {
+        double amount = requestDTO.getAmount();
+        String type = requestDTO.getType();
+
+        Transaction transaction = new Transaction(amount, type);
+        transactionRepository.save(transaction);
+        logger.info("Transaction Successful - Saved transaction: " + amount);
     }
 
 }
