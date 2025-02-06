@@ -20,3 +20,9 @@ spring:
     hibernate:
       ddl-auto: update #Automatically update the db schema.
     show-sql: true #Show SQL queries in the log.
+
+#Application Basic Auth.
+  security:
+    user:
+      name: admin
+      password: admin123
