@@ -3,7 +3,10 @@ logging:
     root: INFO
     org:
       example:
-        springstudy: DEBUG
+        springstudy:
+          config: DEBUG
+      springframework:
+        security: DEBUG
 
 #H2 provide web based console that allows you to query and view db contents http://localhost:8080/h2-console
 spring:
