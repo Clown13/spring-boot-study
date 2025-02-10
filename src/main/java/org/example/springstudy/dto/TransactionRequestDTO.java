@@ -1,5 +1,5 @@
 package org.example.springstudy.dto;
-//DTO represents teh structure of data transferred between the client and the server.
+//DTO represents the structure of data transferred between the client and the server.
 
 /**
  * Data Transfer Object for handling transaction requests.
