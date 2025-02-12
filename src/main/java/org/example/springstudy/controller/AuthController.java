@@ -26,6 +26,6 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtUtil.generateToken(authRequest.getUsername());  // ✅ Return JWT Token
+        return jwtUtil.generateToken(authRequest.getUsername());  //  Return JWT Token
     }
 }

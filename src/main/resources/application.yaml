@@ -25,7 +25,7 @@ spring:
     show-sql: true #Show SQL queries in the log.
 
 #Application Basic Auth.
-  security:
-    user:
-      name: admin
-      password: admin123
+#  security:
+#    user:
+#      name: admin
+#      password: admin123
