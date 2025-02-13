@@ -9,6 +9,15 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
+/***
+ * The JwtUtil class is responsible for generating, validating, and extracting JWT tokens.
+ *
+ *  generateToken(username): Creates a JWT token using a secret key.
+ *  extractUsername(token): Retrieves the username from the token.
+ *  isTokenExpired(token): Checks if the token has expired.
+ *  validateToken(token, username): Ensures the token is valid and matches the user.
+ */
+
 @Component
 public class JwtUtil {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);

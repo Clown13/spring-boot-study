@@ -1,7 +1,11 @@
 package org.example.springstudy.security;
 
 /***
- * This is required so that we want to override the existing CSRF, CSRF needs to be disabled for REST API services so that it does not block all requests from coming in.
+ *  Disable CSRF (since JWT is stateless).
+ *  Allow /auth/login to be publicly accessible.
+ *  Require authentication for all other endpoints.
+ *  Register a custom AuthenticationProvider for handling authentication.
+ *  Creates multiple beans to be used throughout the application.
  *
  */
 

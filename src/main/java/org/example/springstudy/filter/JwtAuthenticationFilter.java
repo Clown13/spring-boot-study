@@ -18,6 +18,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/***
+ * The JwtAuthenticationFilter runs before every request by extending OncePerRequestFilter.
+ *
+ *  What It Does:
+ *  Extracts the JWT token from the Authorization header.
+ *  Calls JwtUtil.extractUsername(token) to get the username.
+ *  Loads user details using CustomUserDetailsService.loadUserByUsername(username).
+ *  Validates the token and sets authentication in SecurityContextHolder.
+ *
+ * This filter ensures that only authenticated requests with a valid JWT token are processed.
+ */
+
 //Extends OncePerRequestFilter meaning it runs oce per request.
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+
+
 @Service  // ✅ Marks this as a Spring-managed Bean
 public class CustomUserDetailsService implements UserDetailsService {
 
